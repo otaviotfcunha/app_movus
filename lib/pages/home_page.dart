@@ -14,54 +14,36 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  /*
-  BOSTA
-  */
   Position? _currentPosition;
-
-  /*
-  MERDA
-  */
-
   late final MapController _mapController;
 
   static const _fatec = LatLng(-22.43116, -46.83463);
   static const _etec = LatLng(-22.44649, -46.83868);
-  static LatLng _voce = const LatLng(-22.4376, -46.8257);
+  var voce = const LatLng(-22.4376, -46.8257);
   double _latAtual = -22.4376;
   double _logAtual = -46.8257;
-
-  static final _markers = [
+  bool carregando = false;
+  static var marcadores = [
     const Marker(
-      width: 20,
-      height: 20,
+      width: 80,
+      height: 80,
       point: _fatec,
-      child: FlutterLogo(key: ValueKey('blue')),
+      child: Icon(Icons.school),
     ),
     const Marker(
-      width: 20,
-      height: 20,
+      width: 80,
+      height: 80,
       point: _etec,
-      child: FlutterLogo(key: ValueKey('green')),
-    ),
-    Marker(
-      width: 20,
-      height: 20,
-      point: _voce,
-      child: const FlutterLogo(key: ValueKey('yellow')),
+      child: Icon(Icons.school),
     ),
   ];
 
   @override
   void initState() {
-    _getCurrentPosition();
+    _getPosicaoInicial();
     super.initState();
     _mapController = MapController();
   }
-
-  /*
-  BOSTA
-  */
 
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
@@ -92,7 +74,8 @@ class _HomePageState extends State<HomePage> {
     return true;
   }
 
-  Future<void> _getCurrentPosition() async {
+  Future<void> _getPosicalAtual() async {
+    var posicaoAtual;
     final hasPermission = await _handleLocationPermission();
 
     if (!hasPermission) return;
@@ -103,69 +86,122 @@ class _HomePageState extends State<HomePage> {
       debugPrint(e);
     });
 
-    _voce = LatLng(_currentPosition!.latitude, _currentPosition!.longitude);
-    _latAtual = _currentPosition!.latitude;
-    _logAtual = _currentPosition!.longitude;
-    setState(() {});
+    posicaoAtual =
+        LatLng(_currentPosition!.latitude, _currentPosition!.longitude);
+
+    if (posicaoAtual != voce) {
+      marcadores.removeLast();
+      voce = posicaoAtual;
+      _latAtual = _currentPosition!.latitude;
+      _logAtual = _currentPosition!.longitude;
+
+      marcadores.add(
+        Marker(
+          width: 80,
+          height: 80,
+          point: voce,
+          child: const Icon(Icons.person),
+        ),
+      );
+      _mapController.move(voce, 17);
+      print("Gps atualizado: $_latAtual e $_logAtual");
+    }
   }
 
-  /*
-  MERDA
-  */
+  Future<void> _getPosicaoInicial() async {
+    setState(() {
+      carregando = true;
+    });
+    final hasPermission = await _handleLocationPermission();
+
+    if (!hasPermission) return;
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) {
+      setState(() => _currentPosition = position);
+    }).catchError((e) {
+      debugPrint(e);
+    });
+
+    voce = LatLng(_currentPosition!.latitude, _currentPosition!.longitude);
+    _latAtual = _currentPosition!.latitude;
+    _logAtual = _currentPosition!.longitude;
+
+    marcadores.add(
+      Marker(
+        width: 80,
+        height: 80,
+        point: voce,
+        child: const Icon(Icons.person),
+      ),
+    );
+    setState(() {
+      carregando = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (!carregando) {
+      Timer(const Duration(seconds: 2), () {
+        setState(() {
+          _getPosicalAtual();
+        });
+      });
+    }
     return SafeArea(
       child: Scaffold(
         drawer: const MenuLateral(),
         appBar: AppBar(
           title: const Text("Movus"),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 8, bottom: 8),
-                child: Row(
-                  children: <Widget>[
-                    MaterialButton(
-                      onPressed: () => _mapController.move(_fatec, 17),
-                      child: const Text('Fatec'),
-                    ),
-                    MaterialButton(
-                      onPressed: () => _mapController.move(_etec, 17),
-                      child: const Text('Etec'),
-                    ),
-                    MaterialButton(
-                      onPressed: () => _mapController.move(_voce, 17),
-                      child: const Text('Você'),
-                    ),
-                  ],
-                ),
-              ),
-              Flexible(
-                child: FlutterMap(
-                  mapController: _mapController,
-                  options: MapOptions(
-                    initialCenter: LatLng(_latAtual, _logAtual),
-                    initialZoom: 17,
-                    maxZoom: 20,
-                    minZoom: 3,
-                  ),
+        body: carregando
+            ? const Center(child: CircularProgressIndicator())
+            : Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
                   children: [
-                    TileLayer(
-                      urlTemplate:
-                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                      userAgentPackageName: 'dev.fleaflet.flutter_map.example',
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, bottom: 8),
+                      child: Row(
+                        children: <Widget>[
+                          MaterialButton(
+                            onPressed: () => _mapController.move(_fatec, 17),
+                            child: const Text('Fatec'),
+                          ),
+                          MaterialButton(
+                            onPressed: () => _mapController.move(_etec, 17),
+                            child: const Text('Etec'),
+                          ),
+                          MaterialButton(
+                            onPressed: () => _mapController.move(voce, 17),
+                            child: const Text('Você'),
+                          ),
+                        ],
+                      ),
                     ),
-                    MarkerLayer(markers: _markers),
+                    Flexible(
+                      child: FlutterMap(
+                        mapController: _mapController,
+                        options: MapOptions(
+                          initialCenter: LatLng(_latAtual, _logAtual),
+                          initialZoom: 17,
+                          maxZoom: 20,
+                          minZoom: 3,
+                        ),
+                        children: [
+                          TileLayer(
+                            urlTemplate:
+                                'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                            userAgentPackageName:
+                                'dev.fleaflet.flutter_map.example',
+                          ),
+                          MarkerLayer(markers: marcadores),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
       ),
     );
   }
