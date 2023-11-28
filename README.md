@@ -1,4 +1,4 @@
-# app_movus
+# MOVUS APP
 Aplicativo do Projeto PI Fatec 2023 - Movus
 
 ## Alunos
