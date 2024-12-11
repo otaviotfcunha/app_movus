@@ -32,6 +32,6 @@ B -- Mapa --> D[Mapa em tempo real]
 D -- Você --> E[Centraliza mapa no usuário]
 D -- Ônibus mais próximo --> F[Centraliza mapa no ônibus mais próximo]
 D -- Clicar no ônibus --> G[Exibe dados do ônibus]
-D -- Clicar no IOT --> H[Exibe tela com localização do(s) IOT(s)]
+D -- Clicar no IOT --> H[Exibe tela com localização dos IOTs]
 B -- Sair --> P{Sair do Aplicativo}
 ```
