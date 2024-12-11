@@ -3,10 +3,10 @@ Aplicativo do Projeto Final 2024 - Movus<br>
 Laboratório de desenvolvimento multiplataforma
 
 ## Alunos
-Cleber Pereira dos Santos Junior 
-Luan Vinicius Garcia  
-Otávio T. F. da Cunha  
-Pedro Henrique Leite dos Santos  
+Cleber Pereira dos Santos Junior<br>
+Luan Vinicius Garcia<br>
+Otávio T. F. da Cunha<br> 
+Pedro Henrique Leite dos Santos<br>
 
 
 ### Requisitos:
