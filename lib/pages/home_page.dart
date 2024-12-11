@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:app_movus/models/onibus_model.dart';
 import 'package:app_movus/models/utils.dart';
+import 'package:app_movus/pages/localizacao_iot.dart';
 import 'package:app_movus/repositories/onibus_repository.dart';
 import 'package:app_movus/services/shared_preferences.dart';
 import 'package:app_movus/shared/widgets/icones_mapa_onibus.dart';
@@ -43,35 +44,47 @@ class _HomePageState extends State<HomePage> {
   bool carregando = false;
   static var marcadores = [
     const Marker(
-      width: 80,
-      height: 80,
-      point: _fatec,
-      child: Column(
-        children: [
-          FaIcon(FontAwesomeIcons.school, color: Colors.green, size: 40),
-          Text("Fatec Itapira", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),),
-        ],
-      )
-    ),
+        width: 80,
+        height: 80,
+        point: _fatec,
+        child: Column(
+          children: [
+            FaIcon(FontAwesomeIcons.school, color: Colors.green, size: 40),
+            Text(
+              "Fatec Itapira",
+              style:
+                  TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+            ),
+          ],
+        )),
     const Marker(
-      width: 80,
-      height: 80,
-      point: _etec,
-      child: Column(
-        children: [
-          FaIcon(FontAwesomeIcons.school, color: Colors.green, size: 40),
-          Text("Etec Itapira", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),),
-        ],
-      )
-    ),
+        width: 80,
+        height: 80,
+        point: _etec,
+        child: Column(
+          children: [
+            FaIcon(FontAwesomeIcons.school, color: Colors.green, size: 40),
+            Text(
+              "Etec Itapira",
+              style:
+                  TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+            ),
+          ],
+        )),
   ];
   static var marcadoresOnibus = [
     const Marker(
-      width: 80,
-      height: 80,
-      point: _fatec,
-      child: IconeMapaOnibus(nomeBusao: "BUS-1234", latitude: -22.43116, longitude: -46.83463, endereco: "Rua Inicial", qtdPassageiros: 0, valorPassagem: "5,00",)
-    ),
+        width: 80,
+        height: 80,
+        point: _fatec,
+        child: IconeMapaOnibus(
+          nomeBusao: "BUS-1234",
+          latitude: -22.43116,
+          longitude: -46.83463,
+          endereco: "Rua Inicial",
+          qtdPassageiros: 0,
+          valorPassagem: "5,00",
+        )),
   ];
 
   @override
@@ -106,8 +119,9 @@ class _HomePageState extends State<HomePage> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Os serviços de localização foram recusados para o aplicativo.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                'Os serviços de localização foram recusados para o aplicativo.')));
         return false;
       }
     }
@@ -136,26 +150,35 @@ class _HomePageState extends State<HomePage> {
       debugPrint(e);
     });
 
-    posicaoAtual = LatLng(_currentPosition!.latitude, _currentPosition!.longitude);
-    posicaoAtualOnibus = LatLng(double.parse(_bus.results[0].latitude), double.parse(_bus.results[0].longitude));
-    var end = await Utils.obterEndereco(double.parse(_bus.results[0].latitude), double.parse(_bus.results[0].longitude));
+    posicaoAtual =
+        LatLng(_currentPosition!.latitude, _currentPosition!.longitude);
+    posicaoAtualOnibus = LatLng(double.parse(_bus.results[0].latitude),
+        double.parse(_bus.results[0].longitude));
+    var end = await Utils.obterEndereco(double.parse(_bus.results[0].latitude),
+        double.parse(_bus.results[0].longitude));
     numRand = rd.nextInt(25);
-    if(posicaoAtualOnibus != onbus){
+    if (posicaoAtualOnibus != onbus) {
       marcadoresOnibus.removeLast();
       onbus = posicaoAtualOnibus;
       marcadoresOnibus.add(
         Marker(
-          width: 80,
-          height: 80,
-          point: onbus,
-          child: IconeMapaOnibus(nomeBusao: "BUS-1234", latitude: double.parse(_bus.results[0].latitude), longitude: double.parse(_bus.results[0].longitude), endereco: end, qtdPassageiros: numRand, valorPassagem: "5,00",)
-        ),
+            width: 80,
+            height: 80,
+            point: onbus,
+            child: IconeMapaOnibus(
+              nomeBusao: "BUS-1234",
+              latitude: double.parse(_bus.results[0].latitude),
+              longitude: double.parse(_bus.results[0].longitude),
+              endereco: end,
+              qtdPassageiros: numRand,
+              valorPassagem: "5,00",
+            )),
       );
-      if(rotaOnibus.length > 10){
+      if (rotaOnibus.length > 10) {
         rotaOnibus.removeAt(0);
       }
       rotaOnibus.add(onbus);
-      if(centralizaMapa == "bus"){
+      if (centralizaMapa == "bus") {
         _mapController.move(onbus, 17);
       }
     }
@@ -163,28 +186,31 @@ class _HomePageState extends State<HomePage> {
     if (posicaoAtual != voce) {
       marcadores.removeLast();
       voce = posicaoAtual;
-      
+
       _latAtual = _currentPosition!.latitude;
       _logAtual = _currentPosition!.longitude;
 
       marcadores.add(
         Marker(
-          width: 80,
-          height: 80,
-          point: voce,
-          //child: const FaIcon(FontAwesomeIcons.userNinja, color: Colors.purple, size: 40), 
-          child: Column(
-            children: [
-              const FaIcon(FontAwesomeIcons.userNinja, color: Colors.purple, size: 40), 
-              Text(nomeUsuario, style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),),
-            ],
-          )
-        ),
+            width: 80,
+            height: 80,
+            point: voce,
+            //child: const FaIcon(FontAwesomeIcons.userNinja, color: Colors.purple, size: 40),
+            child: Column(
+              children: [
+                const FaIcon(FontAwesomeIcons.userNinja,
+                    color: Colors.purple, size: 40),
+                Text(
+                  nomeUsuario,
+                  style: const TextStyle(
+                      color: Colors.purple, fontWeight: FontWeight.bold),
+                ),
+              ],
+            )),
       );
-      if(centralizaMapa == "user"){
+      if (centralizaMapa == "user") {
         _mapController.move(voce, 17);
       }
-      
     }
   }
 
@@ -209,16 +235,20 @@ class _HomePageState extends State<HomePage> {
 
     marcadores.add(
       Marker(
-        width: 80,
-        height: 80,
-        point: voce,
-        child: Column(
-          children: [
-            const FaIcon(FontAwesomeIcons.userNinja, color: Colors.purple, size: 40), 
-            Text(nomeUsuario, style: const TextStyle(color: Colors.purple, fontWeight: FontWeight.bold),),
-          ],
-        )
-      ),
+          width: 80,
+          height: 80,
+          point: voce,
+          child: Column(
+            children: [
+              const FaIcon(FontAwesomeIcons.userNinja,
+                  color: Colors.purple, size: 40),
+              Text(
+                nomeUsuario,
+                style: const TextStyle(
+                    color: Colors.purple, fontWeight: FontWeight.bold),
+              ),
+            ],
+          )),
     );
     setState(() {
       carregando = false;
@@ -244,36 +274,71 @@ class _HomePageState extends State<HomePage> {
                       child: Padding(
                         padding: const EdgeInsets.only(top: 8, bottom: 8),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             MaterialButton(
-                              onPressed: () {
-                                _mapController.move(voce, 17);
-                                setState(() {
-                                  centralizaMapa = "user";
-                                });
-                              },
-                              child: const Row(
-                                children: [
-                                  FaIcon(FontAwesomeIcons.userNinja, color: Colors.white, size: 15), 
-                                  SizedBox(width: 10),
-                                  Text('Você', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                                ],
-                              )
-                            ),
+                                onPressed: () {
+                                  _mapController.move(voce, 17);
+                                  setState(() {
+                                    centralizaMapa = "user";
+                                  });
+                                },
+                                child: const Row(
+                                  children: [
+                                    FaIcon(FontAwesomeIcons.userNinja,
+                                        color: Colors.white, size: 15),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Você',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                )),
+                            MaterialButton(
+                                onPressed: () {
+                                  _mapController.move(onbus, 17);
+                                  setState(() {
+                                    centralizaMapa = "bus";
+                                  });
+                                },
+                                child: const Row(
+                                  children: [
+                                    FaIcon(FontAwesomeIcons.bus,
+                                        color: Colors.white, size: 15),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      'Ônibus mais próximo',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                )),
                             MaterialButton(
                               onPressed: () {
-                                _mapController.move(onbus, 17);
-                                setState(() {
-                                  centralizaMapa = "bus";
-                                });
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LocalizacaoIot(
+                                      latitude: _latAtual,
+                                      longitude: _logAtual,
+                                    ),
+                                  ),
+                                );
                               },
                               child: const Row(
                                 children: [
-                                  FaIcon(FontAwesomeIcons.bus, color: Colors.white, size: 15), 
+                                  FaIcon(FontAwesomeIcons.satellite,
+                                      color: Colors.white, size: 15),
                                   SizedBox(width: 10),
-                                  Text('Ônibus mais próximo', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                                  Text('Equipamento IoT',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold)),
                                 ],
-                              )
+                              ),
                             ),
                           ],
                         ),
@@ -312,7 +377,6 @@ class _HomePageState extends State<HomePage> {
                           MarkerLayer(markers: marcadores),
                           MarkerLayer(markers: marcadoresOnibus),
                         ],
-                        
                       ),
                     ),
                   ],

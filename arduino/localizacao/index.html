@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang='pt-br'>
+	<head>
+		<meta charset='utf-8'>
+		<meta name='viewport' content='width=device-width, initial-scale=1'>
+		<title>MOVUS - BusWebServer</title>
+		<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM' crossorigin='anonymous'>
+		<script>
+			function atualizarPagina() {
+				location.reload();
+			}
+
+			// Atualizar a página a cada 10 segundos (10000 milissegundos)
+			setInterval(atualizarPagina, 10000);
+		</script>
+	</head>
+	<body>
+	<div class='container my-5'>
+		<h1 class='text-center'>Bem vindo ao Movus</h1>
+		<div class='row'>
+			<div class='col-md-4'></div>
+			<div class='col-md-4 text-center'><img src='https://isistecnologia.com.br/movus/LogoMovus.png' class='img-fluid'></img></div>
+			<div class='col-md-4'></div>
+		</div>
+		<hr>
+		<div class='row'>
+			<h3 class='text-center'>Localização Atual</h3>
+			<div class='col-md-4'></div>
+			<div class='col-md-4 text-left'>
+				<p><b>Latitude:</b> {{ latitude }}</p>
+				<p><b>Longitude:</b> {{ longitude }}</p>
+				<p><b>Data:</b> {{ data }}</p>
+				<p><b>Hora:</b> {{ hora }}</p>
+			</div>
+			<div class='col-md-4'></div>
+		</div>
+		<div class='row'>
+			<div class='col-md-12 text-center'>
+				<iframe src="https://www.google.com/maps/embed?pb=!1m13!1m8!1m3!1d460.9420049414035!2d{{longitude}}!3d{{latitude}}!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjLCsDI2JzQ2LjkiUyA0NsKwNDknNDcuOCJX!5e0!3m2!1spt-BR!2sbr!4v1700588523209!5m2!1spt-BR!2sbr" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+			</div>
+		</div>
+	</div>
+	<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz' crossorigin='anonymous'></script>
+	</body>
+</html>

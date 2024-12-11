@@ -1,0 +1,96 @@
+{
+    "topicFilter": "movus_local",
+    "qos": 0,
+    "messages": [
+      {
+        "format": "json",
+        "topic": "movus_local",
+        "timestamp": 1733879638382,
+        "payload": {
+          "message": "Localizacao: -22.43642, -46.82474, data: 10/12/2024, hora: 10:54"
+        },
+        "qos": 0
+      },
+      {
+        "format": "json",
+        "topic": "movus_local",
+        "timestamp": 1733879633536,
+        "payload": {
+          "message": "Localizacao: -22.43653, -46.82457, data: 10/12/2024, hora: 10:48"
+        },
+        "qos": 0
+      },
+      {
+        "format": "json",
+        "topic": "movus_local",
+        "timestamp": 1733879628365,
+        "payload": {
+          "message": "Localizacao: -22.43668, -46.82444, data: 10/12/2024, hora: 10:42"
+        },
+        "qos": 0
+      },
+      {
+        "format": "json",
+        "topic": "movus_local",
+        "timestamp": 1733879623077,
+        "payload": {
+          "message": "Localizacao: -22.43676, -46.82433, data: 10/12/2024, hora: 10:36"
+        },
+        "qos": 0
+      },
+      {
+        "format": "json",
+        "topic": "movus_local",
+        "timestamp": 1733879616793,
+        "payload": {
+          "message": "Localizacao: -22.43687, -46.82421, data: 10/12/2024, hora: 10:30"
+        },
+        "qos": 0
+      },
+      {
+        "format": "json",
+        "topic": "movus_local",
+        "timestamp": 1733879610264,
+        "payload": {
+          "message": "Localizacao: -22.43702, -46.82406, data: 10/12/2024, hora: 10:24"
+        },
+        "qos": 0
+      },
+      {
+        "format": "json",
+        "topic": "movus_local",
+        "timestamp": 1733879603445,
+        "payload": {
+          "message": "Localizacao: -22.43711, -46.82392, data: 10/12/2024, hora: 10:17"
+        },
+        "qos": 0
+      },
+      {
+        "format": "json",
+        "topic": "movus_local",
+        "timestamp": 1733879588665,
+        "payload": {
+          "message": "Localizacao: -22.43733, -46.82372, data: 10/12/2024, hora: 10:05"
+        },
+        "qos": 0
+      },
+      {
+        "format": "json",
+        "topic": "movus_local",
+        "timestamp": 1733879583997,
+        "payload": {
+          "message": "Localizacao: -22.43733, -46.82372, data: 10/12/2024, hora: 10:05"
+        },
+        "qos": 0
+      },
+      {
+        "format": "json",
+        "topic": "movus_local",
+        "timestamp": 1733879572785,
+        "payload": {
+          "message": "Localizacao: -22.43739, -46.82363, data: 10/12/2024, hora: 10:00"
+        },
+        "qos": 0
+      }
+    ]
+  }
